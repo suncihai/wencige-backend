@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.0.3.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'todo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
+    google()
+}
+
+allprojects {
+    apply plugin: 'idea'
+    idea {
+        module {
+            inheritOutputDirs = true
+        }
+    }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+    compile 'io.springfox:springfox-swagger2:2.3.0'
+    compile 'io.springfox:springfox-swagger-ui:2.3.0'
+    compile('net.sf.json-lib:json-lib:2.4:jdk15')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile(
+        [group: 'io.opencensus', name: 'opencensus-api', version: '0.12.2'],
+        [group: 'io.opencensus', name: 'opencensus-exporter-trace-stackdriver', version: '0.12.2'],
+        [group: 'io.opencensus', name: 'opencensus-impl', version:'0.12.2'],
+        [group: 'org.springframework.boot', name: 'spring-boot-starter-mail']
+    )
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
