@@ -2,49 +2,45 @@ package dev.local.todo.service;
 
 import dev.local.todo.api.ApiCode;
 import dev.local.todo.api.ApiResponse;
-import dev.local.todo.dao.PostsRepository;
+import dev.local.todo.dao.CommentsRepository;
 import dev.local.todo.dao.ProblemRepository;
-import dev.local.todo.model.Problem;
-import dev.local.todo.model.Posts;
-import net.sf.json.JSONArray;
+import dev.local.todo.model.Comments;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import dev.local.todo.util.LocalDateTimeUtil;
-import org.apache.commons.lang3.StringUtils;
-import java.sql.Timestamp;
 
-import java.util.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
-public class PostsService {
+public class CommentsService {
     @Autowired
-    private PostsRepository postsRepository;
+    private CommentsRepository commentsRepository;
 
     @Autowired
     private ProblemRepository problemRepository;
 
-    public ApiResponse getPosts() {
+    public ApiResponse getComments() {
         JSONObject response = new JSONObject();
 
-        List<Posts> posts = postsRepository.findAll();
+        List<Comments> comments = commentsRepository.findAll();
 
-        if(posts == null) {
+        if(comments == null) {
             return ApiResponse.createFailure(ApiCode.User.REGISTERFAILURE);
         }
 
-        response.put("posts", posts);
+        response.put("comments", comments);
 
         return ApiResponse.createSuccess(ApiCode.User.ADDSUCCESS, response);
     }
 
-    public ApiResponse submitPost(String username, String title, String text, String imageUrl, Long timestamp) {
+    public ApiResponse submitComment(String username, String text, Long timestamp) {
 
         JSONObject response = new JSONObject();
 
         Timestamp ts= new Timestamp(timestamp);
-        Posts post = new Posts(username, title, text, imageUrl, ts);
-        postsRepository.save(post);
+        Comments comment = new Comments(username, text, ts);
+        commentsRepository.save(comment);
 
         return ApiResponse.createSuccess(ApiCode.User.ADDSUCCESS, response);
     }
