@@ -14,7 +14,4 @@ import java.util.List;
 @Repository
 public interface PostsRepository extends JpaRepository<Posts, Long>{
 
-    @Query("from Record u where u.username=:username")
-    Posts findRecord(@Param("username") String username);
-
 }

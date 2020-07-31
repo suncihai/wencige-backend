@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentsRepository extends JpaRepository<Comments, Long>{
 
-    @Query("from Record u where u.username=:username")
-    Comments findRecord(@Param("username") String username);
-
 }

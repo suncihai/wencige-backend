@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 import java.text.SimpleDateFormat;
 import net.sf.json.JSONObject;
-import dev.local.todo.service.RecordService;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import dev.local.todo.service.PostsService;
+
+import java.util.*;
 
 
 @Component
@@ -25,14 +23,14 @@ public class ScheduleUtil {
     private JavaMailUtil javaMailUtil;
 
     @Autowired
-    RecordService recordService;
+    PostsService postsService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Scheduled(cron = "0 00 11,21 * * ?")
     public void sendReminderEmail() {
-        List<JSONObject> problems = recordService.trackRecord(new Date(), new int[]{-3,-7});
+        List<JSONObject> problems = new LinkedList<>();
         StringBuilder text = new StringBuilder();
         text.append("Please practise following problems: ");
 
